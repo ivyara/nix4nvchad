@@ -29,6 +29,7 @@ let
   inherit (lib)
     lists
     makeBinPath
+    makeLibraryPath
     licenses
     maintainers
     optionalString
@@ -98,7 +99,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       mv $out/config/init.lua $out/config/lua/init.lua
       install -Dm777 $NewInitFile $out/config/init.lua
     ''}
-    wrapProgram $out/bin/nvim --prefix PATH : '${makeBinPath finalAttrs.buildInputs}'
+    wrapProgram $out/bin/nvim --prefix PATH : '${makeBinPath finalAttrs.buildInputs}'\
+                              --prefix LD_LIBRARY_PATH  : '${makeLibraryPath finalAttrs.buildInputs}'
     runHook postInstall
   '';
 
